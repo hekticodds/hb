@@ -1,3 +1,16 @@
+// console test
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  const formData = new FormData(form);
+  const mortgageType = formData.get('mortgageType'); // Getting the mortgage type from the form
+
+  console.log("Selected mortgage type:", mortgageType); // This will print the selected mortgage type to the console
+
+// code
+
 document.addEventListener('DOMContentLoaded', function() {
   const form = document.querySelector('[fs-element="form"]');
   const resultMonthly = document.querySelector('[fs-element="result-monthly"]');
