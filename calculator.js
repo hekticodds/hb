@@ -1,5 +1,7 @@
 // console test
 
+document.getElementById('loginForm').children[0].style.display = 'flex';
+document.getElementById('loginForm').children[1].style.display = 'none';
 
 
 form.addEventListener('submit', (e) => {
