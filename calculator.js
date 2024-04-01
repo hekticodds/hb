@@ -1,28 +1,15 @@
-// console test
-
-document.getElementById('loginForm').children[0].style.display = 'flex';
-document.getElementById('loginForm').children[1].style.display = 'none';
-
 
 form.addEventListener('submit', (e) => {
-  e.preventDefault();
-  e.stopPropagation();
+    e.preventDefault();
+    e.stopPropagation();
 
-  const formData = new FormData(form);
-  const mortgageType = formData.get('mortgageType'); // Getting the mortgage type from the form
-
-  console.log("Selected mortgage type:", mortgageType); // This will print the selected mortgage type to the console
-
-// code
 
 document.addEventListener('DOMContentLoaded', function() {
   const form = document.querySelector('[fs-element="form"]');
   const resultMonthly = document.querySelector('[fs-element="result-monthly"]');
   const resultTotal = document.querySelector('[fs-element="result-total"]');
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+
 
     const formData = new FormData(form);
     const amount = parseFloat(formData.get('amount'));
