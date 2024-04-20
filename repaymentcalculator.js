@@ -27,15 +27,16 @@ window.Webflow.push(() => {
 
     // Calculate interest rate per month
     const monthlyInterestRate = interest / 100 / 12;
-
-    // Calculate interest-only monthly payment
     const interestOnlyMonthlyPayment = amount * monthlyInterestRate;
 
-    // Display results
-    resultMonthly.textContent = '£' + interestOnlyMonthlyPayment.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    // Format and display results
+    const formatCurrency = value => '£' + value.toLocaleString('en-GB', { style: 'currency', currency: 'GBP' }).slice(1);
+
+    resultMonthly.textContent = formatCurrency(interestOnlyMonthlyPayment);
     resultInterest.textContent = '£0.00'; // No principal is paid
     resultYear.textContent = term.toString();
-    resultTotal.textContent = '£' + (interestOnlyMonthlyPayment * term * 12).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    resultTotal.textContent = formatCurrency(interestOnlyMonthlyPayment * term * 12);
   });
 });
+
 
