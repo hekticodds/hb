@@ -58,14 +58,14 @@ window.Webflow.push(() => {
 
     // Use toString() to convert the elements back to string before setting as a text content of the element
     // Display results
-    labelAmount.textContent = '$' + amount.toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    labelAmount.textContent = '£' + amount.toString().replace(/\d(?=(\d{3})+\.)/g, '£&,');
     labelYear.textContent = term.toString();
-    labelMonthly.textContent = '$' + monthlyPayment.toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    labelMonthly.textContent = '£' + monthlyPayment.toString().replace(/\d(?=(\d{3})+\.)/g, '£&,');
     labelRate.textContent = interest.toString() + '%';
 
-    resultMonthly.textContent = '$' + monthlyPayment.toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
-    resultInterest.textContent = '$' + totalInterest.toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    resultMonthly.textContent = '£' + monthlyPayment.toString().replace(/\d(?=(\d{3})+\.)/g, '£&,');
+    resultInterest.textContent = '£' + totalInterest.toString().replace(/\d(?=(\d{3})+\.)/g, '£&,');
     resultYear.textContent = term.toString();
-    resultTotal.textContent = '$' + totalPayment.toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    resultTotal.textContent = '£' + totalPayment.toString().replace(/\d(?=(\d{3})+\.)/g, '£&,');
   });
 });
