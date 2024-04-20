@@ -8,14 +8,7 @@ window.Webflow.push(() => {
   const resultYear = document.querySelector('[fs-element="result-year"]');
   const resultTotal = document.querySelector('[fs-element="result-total"]');
 
-  // Query label elements
-  const labelAmount = document.querySelector('[fs-element="label-amount"]');
-  const labelYear = document.querySelector('[fs-element="label-year"]');
-  const labelMonthly = document.querySelector('[fs-element="label-monthly"]');
-  const labelRate = document.querySelector('[fs-element="label-rate"]');
-
-  if (!form || !resultMonthly || !resultInterest || !resultYear || !resultTotal ||
-      !labelAmount || !labelYear || !labelMonthly || !labelRate)
+  if (!form || !resultMonthly || !resultInterest || !resultYear || !resultTotal)
     return;
 
   form.addEventListener('submit', (e) => {
@@ -37,17 +30,12 @@ window.Webflow.push(() => {
 
     // Calculate interest-only monthly payment
     const interestOnlyMonthlyPayment = amount * monthlyInterestRate;
-    const formattedInterestOnlyPayment = '£' + interestOnlyMonthlyPayment.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-    // Set results
-    labelAmount.textContent = '£' + amount.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    labelYear.textContent = term.toString();
-    labelMonthly.textContent = formattedInterestOnlyPayment;
-    labelRate.textContent = interest + '%';
-
-    resultMonthly.textContent = formattedInterestOnlyPayment;
+    // Display results
+    resultMonthly.textContent = '£' + interestOnlyMonthlyPayment.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     resultInterest.textContent = '£0.00'; // No principal is paid
     resultYear.textContent = term.toString();
     resultTotal.textContent = '£' + (interestOnlyMonthlyPayment * term * 12).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   });
 });
+
