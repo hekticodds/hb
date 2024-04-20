@@ -1,37 +1,71 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const form = document.querySelector('[fs-element="form"]');
-    const resultMonthly = document.querySelector('[fs-element="result-monthly"]');
-    const resultInterest = document.querySelector('[fs-element="result-interest"]');
-    const resultYear = document.querySelector('[fs-element="result-year"]');
-    const resultTotal = document.querySelector('[fs-element="result-total"]');
+'use strict';
+window.Webflow || (window.Webflow = []);
+window.Webflow.push(() => {
+  // Query the elements
+  const form = document.querySelector('[fs-element="form"]');
+  const resultMonthly = document.querySelector('[fs-element="result-monthly"]');
+  const resultInterest = document.querySelector('[fs-element="result-interest"]');
+  const resultYear = document.querySelector('[fs-element="result-year"]');
+  const resultTotal = document.querySelector('[fs-element="result-total"]');
 
-    if (!form || !resultMonthly || !resultInterest || !resultYear || !resultTotal)
-        return;
+  //Query label elements
+  const labelAmount = document.querySelector('[fs-element="label-amount"]');
+  const labelYear = document.querySelector('[fs-element="label-year"]');
+  const labelMonthly = document.querySelector('[fs-element="label-monthly"]');
+  const labelRate = document.querySelector('[fs-element="label-rate"]');
 
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        e.stopPropagation(); // Prevents Webflow JS from executing further actions.
+  // if there's no form or any of the below elements, just return from the function and don't do anything else
+  if (
+    !form ||
+    !resultMonthly ||
+    !resultInterest ||
+    !resultYear ||
+    !resultTotal ||
+    !labelAmount ||
+    !labelYear ||
+    !labelMonthly ||
+    !labelRate
+  )
+    return;
 
-        const formData = new FormData(form);
-        const amount = parseFloat(formData.get('amount').replace(/[^\d.]/g, ''));
-        const interest = parseFloat(formData.get('interest').replace(/[^\d.]/g, ''));
-        const term = parseInt(formData.get('term').replace(/[^\d.]/g, ''));
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    e.stopPropagation(); // prevent Webflow JS to do anything else
+    // Get the data from the calculator
+    // * the data outputted will be in string format, will need to convert to number type later *
 
-        if (isNaN(amount) || isNaN(interest) || isNaN(term)) {
-            console.log("Invalid input");
-            return;
-        }
+    const formData = new FormData(form);
+    const amount = formData.get('amount'); // returning the value of amount
+    const interest = formData.get('interest');
+    const term = formData.get('term');
 
-        // Calculate interest rate per month
-        const monthlyInterestRate = interest / 100 / 12;
+    if (!amount || !interest || !term) return;
 
-        // Calculate interest-only monthly payment
-        const interestOnlyMonthlyPayment = amount * monthlyInterestRate;
+    // Calculate
+    const calculateInterest = Number(interest) / 100 / 12;
+    const calculatePayments = Number(term) * 12;
 
-        // Display results directly using toLocaleString for formatting
-        resultMonthly.textContent = '£' + interestOnlyMonthlyPayment.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        resultInterest.textContent = '£0.00';  // No principal is paid
-        resultYear.textContent = term.toString();
-        resultTotal.textContent = '£' + (interestOnlyMonthlyPayment * term * 12).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    });
+    // Compute monthly payment
+    const x = Math.pow(1 + calculateInterest, calculatePayments);
+    const monthly = (Number(amount) * x * calculateInterest) / (x - 1);
+    const monthlyPayment = monthly.toFixed(2); // 2 decimals
+
+    // Compute Interest
+    const totalInterest = (monthly * calculatePayments - Number(amount)).toFixed(2);
+
+    // Compute Total Payment
+    const totalPayment = (monthly * calculatePayments).toFixed(2);
+
+    // Use toString() to convert the elements back to string before setting as a text content of the element
+    // Display results
+    labelAmount.textContent = '$' + amount.toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    labelYear.textContent = term.toString();
+    labelMonthly.textContent = '$' + monthlyPayment.toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    labelRate.textContent = interest.toString() + '%';
+
+    resultMonthly.textContent = '$' + monthlyPayment.toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    resultInterest.textContent = '$' + totalInterest.toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    resultYear.textContent = term.toString();
+    resultTotal.textContent = '$' + totalPayment.toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  });
 });
