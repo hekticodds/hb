@@ -23,29 +23,36 @@ window.Webflow.push(() => {
     e.stopPropagation(); // Prevent Webflow JS to do anything else
 
     const formData = new FormData(form);
-    const amount = formData.get('amount');
-    const interest = formData.get('interest');
-    const term = formData.get('term');
+    const amount = parseFloat(formData.get('amount'));
+    const interest = parseFloat(formData.get('interest'));
+    const term = parseInt(formData.get('term'));
 
-    if (!amount || !interest || !term) return;
+    if (isNaN(amount) || isNaN(interest) || isNaN(term)) {
+      console.log("Invalid input");
+      return;
+    }
 
     // Calculate interest rate per month
-    const monthlyInterestRate = Number(interest) / 100 / 12;
+    const monthlyInterestRate = interest / 100 / 12;
 
     // Calculate interest-only monthly payment
-    const interestOnlyMonthlyPayment = (Number(amount) * monthlyInterestRate).toFixed(2);
+    const interestOnlyMonthlyPayment = (amount * monthlyInterestRate).toFixed(2);
 
     // Set results
-    labelAmount.textContent = '£' + Number(amount).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const formattedAmount = '£' + amount.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const formattedMonthlyPayment = '£' + parseFloat(interestOnlyMonthlyPayment).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    labelAmount.textContent = formattedAmount;
     labelYear.textContent = term.toString();
-    labelMonthly.textContent = '£' + interestOnlyMonthlyPayment.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    labelMonthly.textContent = formattedMonthlyPayment;
     labelRate.textContent = interest.toString() + '%';
 
-    resultMonthly.textContent = '£' + interestOnlyMonthlyPayment.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    resultMonthly.textContent = formattedMonthlyPayment;
     resultInterest.textContent = '£0.00'; // No principal is paid
     resultYear.textContent = term.toString();
-    resultTotal.textContent = '£' + (Number(interestOnlyMonthlyPayment) * Number(term) * 12).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    resultTotal.textContent = '£' + (parseFloat(interestOnlyMonthlyPayment) * term * 12).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   });
 });
+
 
 
