@@ -36,15 +36,16 @@ window.Webflow.push(() => {
     const interestOnlyMonthlyPayment = (Number(amount) * monthlyInterestRate).toFixed(2);
 
     // Set results
-    labelAmount.textContent = '£' + amount.toString().replace(/\d(?=(\d{3})+\.)/g, '£&,');
+    labelAmount.textContent = '£' + Number(amount).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     labelYear.textContent = term.toString();
-    labelMonthly.textContent = '£' + interestOnlyMonthlyPayment.toString().replace(/\d(?=(\d{3})+\.)/g, '£&,');
+    labelMonthly.textContent = '£' + interestOnlyMonthlyPayment.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     labelRate.textContent = interest.toString() + '%';
 
-    resultMonthly.textContent = '£' + interestOnlyMonthlyPayment.toString().replace(/\d(?=(\d{3})+\.)/g, '£&,');
+    resultMonthly.textContent = '£' + interestOnlyMonthlyPayment.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     resultInterest.textContent = '£0.00'; // No principal is paid
     resultYear.textContent = term.toString();
-    resultTotal.textContent = '£' + (Number(interestOnlyMonthlyPayment) * Number(term) * 12).toFixed(2).toString().replace(/\d(?=(\d{3})+\.)/g, '£&,');
+    resultTotal.textContent = '£' + (Number(interestOnlyMonthlyPayment) * Number(term) * 12).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   });
 });
+
 
