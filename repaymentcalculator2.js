@@ -41,31 +41,15 @@ window.Webflow.push(() => {
 
     if (!amount || !interest || !term) return;
 
-    // Calculate
-    const calculateInterest = Number(interest) / 100 / 12;
-    const calculatePayments = Number(term) * 12;
+    // Calculate interest rate per month
+    const monthlyInterestRate = Number(interest) / 100 / 12;
 
-    // Compute monthly payment
-    const x = Math.pow(1 + calculateInterest, calculatePayments);
-    const monthly = (Number(amount) * x * calculateInterest) / (x - 1);
-    const monthlyPayment = monthly.toFixed(2); // 2 decimals
+    // Compute interest-only monthly payment
+    const interestOnlyMonthlyPayment = (Number(amount) * monthlyInterestRate).toFixed(2);
 
-    // Compute Interest
-    const totalInterest = (monthly * calculatePayments - Number(amount)).toFixed(2);
-
-    // Compute Total Payment
-    const totalPayment = (monthly * calculatePayments).toFixed(2);
+    // Compute total interest payment over the term
+    const totalInterest = (interestOnlyMonthlyPayment * Number(term) * 12).toFixed(2);
 
     // Use toString() to convert the elements back to string before setting as a text content of the element
     // Display results
-    labelAmount.textContent = '$' + amount.toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
-    labelYear.textContent = term.toString();
-    labelMonthly.textContent = '$' + monthlyPayment.toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
-    labelRate.textContent = interest.toString() + '%';
-
-    resultMonthly.textContent = '$' + monthlyPayment.toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
-    resultInterest.textContent = '$' + totalInterest.toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
-    resultYear.textContent = term.toString();
-    resultTotal.textContent = '$' + totalPayment.toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
-  });
-});
+    labelAmount.textContent = '£' + Number(amount).toFixed(2).toString().replace(/\d(?=(
