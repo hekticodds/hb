@@ -13,7 +13,7 @@ window.Webflow.push(() => {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    e.stopPropagation(); // Prevent Webflow JS to do anything else
+    e.stopPropagation(); // Prevent Webflow JS from performing default submission
 
     const formData = new FormData(form);
     const amount = parseFloat(formData.get('amount'));
@@ -27,16 +27,14 @@ window.Webflow.push(() => {
 
     // Calculate interest rate per month
     const monthlyInterestRate = interest / 100 / 12;
+
+    // Calculate interest-only monthly payment
     const interestOnlyMonthlyPayment = amount * monthlyInterestRate;
 
-    // Format and display results
-    const formatCurrency = value => '£' + value.toLocaleString('en-GB', { style: 'currency', currency: 'GBP' }).slice(1);
-
-    resultMonthly.textContent = formatCurrency(interestOnlyMonthlyPayment);
-    resultInterest.textContent = '£0.00'; // No principal is paid
+    // Display results directly using toLocaleString for formatting
+    resultMonthly.textContent = '£' + interestOnlyMonthlyPayment.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    resultInterest.textContent = '£0.00';  // No principal is paid
     resultYear.textContent = term.toString();
-    resultTotal.textContent = formatCurrency(interestOnlyMonthlyPayment * term * 12);
+    resultTotal.textContent = '£' + (interestOnlyMonthlyPayment * term * 12).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   });
 });
-
-
