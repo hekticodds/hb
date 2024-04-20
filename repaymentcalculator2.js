@@ -47,16 +47,15 @@ window.Webflow.push(() => {
     // Compute interest-only monthly payment
     const interestOnlyMonthlyPayment = (Number(amount) * monthlyInterestRate).toFixed(2);
 
-    // Use toString() to convert the elements back to string before setting as a text content of the element
-    // Display results
-    labelAmount.textContent = '£' + Number(amount).toFixed(2).toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    // Display results using plain formatting to avoid complications
+    labelAmount.textContent = '£' + parseFloat(amount).toFixed(2);
     labelYear.textContent = term.toString();
-    labelMonthly.textContent = '£' + interestOnlyMonthlyPayment.toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    labelMonthly.textContent = '£' + parseFloat(interestOnlyMonthlyPayment).toFixed(2);
     labelRate.textContent = interest.toString() + '%';
 
-    resultMonthly.textContent = '£' + interestOnlyMonthlyPayment.toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
-    resultInterest.textContent = '£' + interestOnlyMonthlyPayment.toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    resultMonthly.textContent = '£' + parseFloat(interestOnlyMonthlyPayment).toFixed(2);
+    resultInterest.textContent = '£' + parseFloat(interestOnlyMonthlyPayment).toFixed(2); // Monthly interest displayed as "Interest"
     resultYear.textContent = term.toString();
-    resultTotal.textContent = '£' + (interestOnlyMonthlyPayment * term * 12).toFixed(2).toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    resultTotal.textContent = '£' + (parseFloat(interestOnlyMonthlyPayment) * term * 12).toFixed(2);
   });
 });
