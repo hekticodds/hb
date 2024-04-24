@@ -36,9 +36,19 @@ window.Webflow.push(() => {
     const interestOnlyMonthlyPayment = (amount * monthlyInterestRate).toFixed(2);
 
     // Display the monthly repayment formatted as currency
-    resultMonthly.textContent = monthlyRepayment.toLocaleString('en-GB', {style: 'currency', currency: 'GBP', minimumFractionDigits: 2});
+    resultMonthly.textContent = monthlyRepayment.toLocaleString('en-GB', {
+        style: 'currency',
+        currency: 'GBP',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
 
     // Display the monthly interest-only payment formatted as currency
-    resultInterest.textContent = parseFloat(interestOnlyMonthlyPayment).toLocaleString('en-GB', {style: 'currency', currency: 'GBP', minimumFractionDigits: 2});
+    resultInterest.textContent = parseFloat(interestOnlyMonthlyPayment).toLocaleString('en-GB', {
+        style: 'currency',
+        currency: 'GBP',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
   });
 });
