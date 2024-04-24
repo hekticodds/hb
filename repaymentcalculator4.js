@@ -32,13 +32,13 @@ window.Webflow.push(() => {
     const x = Math.pow(1 + monthlyInterestRate, term * 12);
     const monthlyRepayment = (amount * monthlyInterestRate * x) / (x - 1);
 
-    // Correct formula for monthly interest-only payment
-    const interestOnlyMonthlyPayment = ((amount * (interest / 100)) / 12).toFixed(2);
+    // Calculate the monthly interest-only payment
+    const interestOnlyMonthlyPayment = (amount * monthlyInterestRate).toFixed(2);
 
-    // Display the monthly repayment
-    resultMonthly.textContent = '£' + monthlyRepayment.toFixed(2);
+    // Display the monthly repayment formatted as currency
+    resultMonthly.textContent = monthlyRepayment.toLocaleString('en-GB', {style: 'currency', currency: 'GBP', minimumFractionDigits: 2});
 
-    // Display the monthly interest-only payment
-    resultInterest.textContent = '£' + interestOnlyMonthlyPayment;
+    // Display the monthly interest-only payment formatted as currency
+    resultInterest.textContent = parseFloat(interestOnlyMonthlyPayment).toLocaleString('en-GB', {style: 'currency', currency: 'GBP', minimumFractionDigits: 2});
   });
 });
